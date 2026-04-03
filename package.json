@@ -27,7 +27,7 @@
     "brainstorming"
   ],
   "bin": {
-    "deliberate": "./bin/cli.js"
+    "deliberate": "bin/cli.js"
   },
   "files": [
     "bin/",
