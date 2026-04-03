@@ -303,6 +303,10 @@ By default, agents reason from **parametric knowledge** — what the model inter
 
 **This is opt-in only. It is never the default.** Not every question needs research — and research consumes tokens. Use it when parametric knowledge is insufficient.
 
+<p align="center">
+  <img src="assets/research_grounding.png" alt="Research Grounding — --research flag" width="100%" />
+</p>
+
 ### Research modes
 
 **Claude Code:**
