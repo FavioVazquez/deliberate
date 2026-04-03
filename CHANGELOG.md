@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2025-04-03
+
+### Changed
+- Rewrote installer as pure Node.js (no bash dependency required)
+- Blue ASCII "DELIBERATE" banner with professional CLI styling
+- Interactive prompts: platform selection with auto-detection, global/local scope choice
+- Clean ✓ checkmark output with colored status lines
+- Platform flags: --claude, --windsurf, --cursor, --all
+- Scope flags: --global/-g, --local/-l
+- Added --dry-run preview, --uninstall support
+- Moved release.sh to repo root (dev-only, excluded from npm package)
+
 ## [0.1.0] - 2025-04-03
 
 ### Added
