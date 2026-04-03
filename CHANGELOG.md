@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.6] - 2025-04-03
+
+### Fixed
+- `bin/cli.js`: all three install functions (Claude Code, Windsurf, Cursor) now copy `protocols/` to the skill directory — `protocols/research-grounding.md` was missing after install despite being in the npm package
+
 ## [0.2.5] - 2025-04-03
 
 ### Fixed

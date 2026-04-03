@@ -187,6 +187,10 @@ function installClaudeCode(isGlobal) {
   copyDir(path.join(ROOT, 'templates'), path.join(skillDir, 'templates'));
   console.log(`  ${green}✓${reset} Installed output templates`);
 
+  // Protocols
+  copyDir(path.join(ROOT, 'protocols'), path.join(skillDir, 'protocols'));
+  console.log(`  ${green}✓${reset} Installed protocols`);
+
   console.log(`\n  ${green}Done!${reset} Open Claude Code and try: ${cyan}/deliberate "your question here"${reset}`);
 }
 
@@ -206,14 +210,15 @@ function installWindsurf(isGlobal) {
   copyDir(path.join(ROOT, 'agents'), path.join(skillDir, 'agents'));
   console.log(`  ${green}✓${reset} Installed 17 agents`);
 
-  // Configs, Scripts, Templates
+  // Configs, Scripts, Templates, Protocols
   copyDir(path.join(ROOT, 'configs'), path.join(skillDir, 'configs'));
   copyDir(path.join(ROOT, 'scripts'), path.join(skillDir, 'scripts'));
   copyDir(path.join(ROOT, 'templates'), path.join(skillDir, 'templates'));
+  copyDir(path.join(ROOT, 'protocols'), path.join(skillDir, 'protocols'));
   makeExecutable(path.join(skillDir, 'scripts', 'start-server.sh'));
   makeExecutable(path.join(skillDir, 'scripts', 'stop-server.sh'));
   makeExecutable(path.join(skillDir, 'scripts', 'detect-platform.sh'));
-  console.log(`  ${green}✓${reset} Installed configs, scripts, templates`);
+  console.log(`  ${green}✓${reset} Installed configs, scripts, templates, protocols`);
 
   console.log(`\n  ${green}Done!${reset} Open Windsurf and try: ${cyan}@deliberate${reset} or just ask a complex decision question.`);
 }
@@ -231,10 +236,11 @@ function installCursor(isGlobal) {
   copyDir(path.join(ROOT, 'configs'), path.join(skillDir, 'configs'));
   copyDir(path.join(ROOT, 'scripts'), path.join(skillDir, 'scripts'));
   copyDir(path.join(ROOT, 'templates'), path.join(skillDir, 'templates'));
+  copyDir(path.join(ROOT, 'protocols'), path.join(skillDir, 'protocols'));
   makeExecutable(path.join(skillDir, 'scripts', 'start-server.sh'));
   makeExecutable(path.join(skillDir, 'scripts', 'stop-server.sh'));
   makeExecutable(path.join(skillDir, 'scripts', 'detect-platform.sh'));
-  console.log(`  ${green}✓${reset} Installed skill, agents, configs, scripts, templates`);
+  console.log(`  ${green}✓${reset} Installed skill, agents, configs, scripts, templates, protocols`);
 
   console.log(`\n  ${green}Done!${reset} Open Cursor and try: ${cyan}@deliberate${reset} or just ask a complex decision question.`);
 }
