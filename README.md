@@ -19,7 +19,7 @@ The disagreements are the point. A single model averages opposing views into one
 ## Quick Start
 
 ```bash
-npx deliberate
+npx @faviovazquez/deliberate
 ```
 
 This auto-detects your platform (Claude Code, Windsurf, Cursor) and installs the skill to the current workspace. Then open your AI assistant and try:

@@ -17,10 +17,10 @@ function usage() {
   Agreement is a bug.
 
   Usage:
-    npx deliberate              Auto-detect platform and install
-    npx deliberate --platform X Install for specific platform
-    npx deliberate --dry-run    Preview installation
-    npx deliberate --help       Show this help
+    npx @faviovazquez/deliberate              Auto-detect platform and install
+    npx @faviovazquez/deliberate --platform X Install for specific platform
+    npx @faviovazquez/deliberate --dry-run    Preview installation
+    npx @faviovazquez/deliberate --help       Show this help
 
   Platforms: claude-code, windsurf, cursor, all
 

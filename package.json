@@ -1,5 +1,5 @@
 {
-  "name": "deliberate",
+  "name": "@faviovazquez/deliberate",
   "version": "0.1.0",
   "description": "Multi-agent deliberation skill for AI coding assistants. Agreement is a bug.",
   "license": "MIT",

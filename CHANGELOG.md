@@ -21,6 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Frame template with dark theme CSS: options, cards, split views, mockups, pros/cons, agent badges, verdict styling
 - Platform support: Claude Code (parallel subagents), Windsurf (sequential), Cursor (sequential)
 - Platform-aware installer with auto-detection, global/workspace scope
-- `npx deliberate` universal installer
+- `npx @faviovazquez/deliberate` universal installer
 - Model tier configs for Anthropic (claude-sonnet-4.6), OpenAI (gpt-5.4), Google (gemini-2.5-pro/flash), Ollama (qwen3-coder)
 - Output templates for deliberation and brainstorm records saved to deliberations/
