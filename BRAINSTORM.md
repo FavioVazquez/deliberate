@@ -14,6 +14,16 @@ Brainstorm mode is not a stripped-down deliberation. It's a separate process opt
 /deliberate --brainstorm --members assumption-breaker,reframer,pragmatic-builder "new pricing model"
 /deliberate --brainstorm --triad product "what features should v2 include?"
 /deliberate --brainstorm --visual "landing page redesign"
+/deliberate --brainstorm --research "what are the best approaches to financial data lineage?"
+/deliberate --brainstorm --research=code "how should we refactor this module?"
+/deliberate --brainstorm --research=web "new data governance frameworks we should consider"
+```
+
+On Windsurf:
+```
+@deliberate brainstorm with research: what are the best approaches to financial data lineage?
+@deliberate brainstorm look at the codebase first: how should we refactor the ingestion pipeline?
+@deliberate brainstorm search the web: new data governance frameworks we should consider
 ```
 
 ## HARD GATE
@@ -34,6 +44,25 @@ Read the relevant context before asking any questions:
 - Previous deliberation records in `deliberations/` if they exist
 
 Produce a brief context summary (3-5 sentences) so the user can confirm you understand the space.
+
+#### Research Grounding (optional — `--research` flag only)
+
+If `--research`, `--research=web`, or `--research=code` is set (or natural language on Windsurf: "with research", "search the web", "look at the codebase first", "do research first"):
+
+1. Read `protocols/research-grounding.md` for the full protocol
+2. Execute Steps R1–R4 **before** asking clarifying questions in Phase 3
+3. Include the Codebase Context Summary and/or Web Research Summary in the context summary presented to the user
+4. Inject grounding evidence into every agent prompt in Phase 5 (Divergent Phase)
+
+The grounding evidence supplements — but does not replace — the clarifying questions in Phase 3. Agents still receive the clarified scope from Phase 3 alongside the research findings.
+
+Announce to the user:
+```
+Research mode active. I'll scan [the codebase / the web / both] before we start.
+This gives the agents real evidence to reason from, not just parametric knowledge.
+```
+
+If `--research` is NOT set, do not spontaneously research. Proceed with standard context exploration only.
 
 ### Phase 2: Visual Companion Offer
 

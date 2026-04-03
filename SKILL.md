@@ -35,6 +35,9 @@ description: "Multi-agent deliberation skill. Forces structured disagreement to 
 | `--profile {name}` | Use named profile (full, lean, exploration, execution). |
 | `--visual` | Launch visual companion for this session. |
 | `--save {slug}` | Override auto-generated filename slug for output. |
+| `--research` | Run a grounding phase before Round 1: scan the codebase and/or search the web. Agents reason from retrieved evidence, not parametric knowledge alone. **Opt-in only — never the default.** See `protocols/research-grounding.md`. |
+| `--research=web` | Web search only (no codebase scan). |
+| `--research=code` | Codebase scan only (no web search). |
 
 ## The 14 Core Agents
 
@@ -117,14 +120,27 @@ These agents are structural counterweights. When both are present, genuine disag
 
 The coordinator is the orchestration layer. It does NOT have its own opinion. It routes, enforces protocol, and synthesizes.
 
-### Step 0: Platform Detection
+### Step 0: Research Grounding (optional — `--research` flag only)
+
+If `--research`, `--research=web`, or `--research=code` is set (or natural language equivalents on Windsurf: "do research first", "search the web", "look at the codebase first", "with research"):
+
+1. Read the full protocol at `protocols/research-grounding.md`
+2. Execute Steps R1–R4 from that protocol before dispatching any agents
+3. Package the grounding context (Codebase Context Summary and/or Web Research Summary) for injection into all agent prompts in Step 5
+4. After Round 1, run Step R5 (evidence quality check)
+
+If `--research` is NOT set, skip this step entirely. Do not spontaneously research unless the user explicitly requests it.
+
+---
+
+### Step 1: Platform Detection
 
 Read `configs/defaults.yaml` to determine:
 - **Claude Code**: Use parallel subagents. Each agent gets its own context window.
 - **Windsurf**: Use sequential role-prompting within single context. Default to "lean" profile unless user overrides.
 - **Other**: Fall back to sequential mode.
 
-### Step 1: Problem Restatement
+### Step 2: Problem Restatement
 
 Before any agent speaks, the coordinator restates the user's question in neutral, precise terms. This prevents framing bias from the original question.
 
@@ -133,7 +149,7 @@ Before any agent speaks, the coordinator restates the user's question in neutral
 {Neutral restatement of the user's question, stripped of loaded language}
 ```
 
-### Step 2: Agent Selection
+### Step 3: Agent Selection
 
 Based on flags:
 - `--full`: All 14 core agents
@@ -145,7 +161,7 @@ Based on flags:
 
 If auto-detection is ambiguous, present the top 2-3 triad matches and let the user choose.
 
-### Step 3: Model Routing
+### Step 4: Model Routing
 
 Read `configs/defaults.yaml` for tier mapping:
 - Agents marked `model: high` get the high-tier model
@@ -154,7 +170,7 @@ Read `configs/defaults.yaml` for tier mapping:
 
 If `configs/provider-model-slots.yaml` exists, use manual overrides instead of auto-routing.
 
-### Step 4: Visual Companion (optional)
+### Step 5: Visual Companion (optional)
 
 If `--visual` flag is set, or if the user has previously accepted the visual companion in this session:
 1. Launch `scripts/start-server.sh --project-dir {project_root}`
@@ -162,7 +178,7 @@ If `--visual` flag is set, or if the user has previously accepted the visual com
 3. Tell user to open the URL
 4. Visual companion will be updated after each round
 
-### Step 5: Round 1 -- Independent Analysis
+### Step 6: Round 1 -- Independent Analysis
 
 Each selected agent receives:
 ```
@@ -170,7 +186,12 @@ Each selected agent receives:
 You are {agent_name}. Read your full agent definition at agents/{agent_name}.md.
 
 ## Problem
-{Problem restatement from Step 1}
+{Problem restatement from Step 2}
+
+## Grounding Evidence [only present if --research is active]
+{Codebase Context Summary and/or Web Research Summary from Step 0}
+Use this evidence in your analysis. You may cite specific findings.
+If the evidence is insufficient, note what additional information would change your position.
 
 ## Instructions
 Produce your independent analysis following your Analytical Method.
@@ -181,7 +202,7 @@ Follow your Standalone Output Format.
 **Claude Code execution**: Launch all agents as parallel subagents. Wait for all to complete.
 **Windsurf execution**: Prompt each agent role sequentially. Collect all outputs before proceeding.
 
-### Step 6: Round 2 -- Cross-Examination
+### Step 7: Round 2 -- Cross-Examination
 
 Each agent receives ALL Round 1 outputs and must respond:
 
@@ -209,7 +230,7 @@ You MUST disagree with at least one position.
 **Claude Code execution**: Sequential (each agent needs to see prior cross-examinations for richer engagement).
 **Windsurf execution**: Sequential.
 
-### Step 7: Enforcement Scans
+### Step 8: Enforcement Scans
 
 After Round 2, the coordinator checks:
 
@@ -220,7 +241,7 @@ After Round 2, the coordinator checks:
 5. **Novelty gate**: Did Round 2 introduce at least one idea not present in Round 1? If not, flag stale deliberation.
 6. **Groupthink flag**: If ALL agents agree on the core position, flag: "Unanimous agreement may indicate groupthink. Consider invoking `risk-analyst` or `assumption-breaker` standalone for a second opinion."
 
-### Step 8: Round 3 -- Crystallization
+### Step 9: Round 3 -- Crystallization
 
 Each agent states their FINAL position:
 
@@ -233,7 +254,7 @@ If you changed your mind during cross-examination, state the new position and wh
 
 **Execution**: Parallel (Claude Code) or sequential (Windsurf). No interaction needed.
 
-### Step 9: Verdict Synthesis
+### Step 10: Verdict Synthesis
 
 The coordinator synthesizes all three rounds into a structured verdict:
 
@@ -278,7 +299,7 @@ The coordinator synthesizes all three rounds into a structured verdict:
 {Questions raised during deliberation that were not resolved}
 ```
 
-### Step 10: Save Output
+### Step 11: Save Output
 
 Save the full deliberation record to `deliberations/YYYY-MM-DD-HH-MM-{mode}-{slug}.md`.
 
@@ -290,10 +311,10 @@ If visual companion is active, push the verdict formation view to the browser.
 
 Quick mode skips Round 2 (cross-examination):
 
-1. Steps 0-5 (same as full)
-2. Skip Steps 6-7
-3. Step 8: Crystallization (agents state final position based only on seeing Round 1 outputs)
-4. Steps 9-10 (same as full)
+1. Steps 0-6 (same as full, including research grounding if `--research` is set)
+2. Skip Steps 7-8
+3. Step 9: Crystallization (agents state final position based only on seeing Round 1 outputs)
+4. Steps 10-11 (same as full)
 
 Quick mode is faster and cheaper but produces less refined disagreement. Use for time-sensitive decisions where the diversity of initial perspectives is more valuable than deep cross-examination.
 
@@ -303,14 +324,14 @@ Quick mode is faster and cheaper but produces less refined disagreement. Use for
 
 Duo mode runs two agents in dialectic:
 
-1. Steps 0-4 (same as full, but only 2 agents)
+1. Steps 0-5 (same as full, but only 2 agents, including research grounding if `--research` is set)
 2. **Exchange Round 1**: Agent A states position (400 words). Agent B states position (400 words).
 3. **Exchange Round 2**: Agent A responds to Agent B (300 words). Agent B responds to Agent A (300 words).
 4. **Synthesis**: Coordinator synthesizes the exchange into a verdict highlighting:
    - Where the two agents agree
    - Where they disagree and why
    - What the user should weigh when deciding
-5. Step 10 (save output)
+5. Step 11 (save output)
 
 Duo mode is ideal for binary decisions ("should we do X or not?"). The polarity pairs table above lists the most productive pairings.
 

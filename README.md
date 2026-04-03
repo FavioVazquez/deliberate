@@ -282,8 +282,71 @@ Pre-defined agent groups for common scenarios. Use when you don't want to pick i
 | `--profile {name}` | Use named profile (full, lean, exploration, execution) | `/deliberate --profile exploration "question"` |
 | `--visual` | Launch browser-based visual companion | `/deliberate --visual --full "question"` |
 | `--save {slug}` | Override auto-generated filename slug for output | `/deliberate --save my-decision "question"` |
+| `--research` | Grounding phase before Round 1: scan codebase + search web. Agents reason from retrieved evidence. **Opt-in only.** | `/deliberate --research "question"` |
+| `--research=web` | Web search only (no codebase scan) | `/deliberate --research=web "question"` |
+| `--research=code` | Codebase scan only (no web search) | `/deliberate --research=code "question"` |
 
-> **Windsurf/Cursor note:** Flags are expressed as natural language after `@deliberate`. The skill parses intent from your message. Examples: `@deliberate full deliberation: ...`, `@deliberate quick: ...`, `@deliberate architecture triad: ...`, `@deliberate brainstorm: ...`.
+> **Windsurf/Cursor note:** Flags are expressed as natural language after `@deliberate`. The skill parses intent from your message. Examples: `@deliberate full deliberation: ...`, `@deliberate quick: ...`, `@deliberate architecture triad: ...`, `@deliberate brainstorm: ...`, `@deliberate with research: ...`, `@deliberate search the web before answering: ...`, `@deliberate look at the codebase first: ...`.
+
+---
+
+## Research Grounding (`--research`)
+
+By default, agents reason from **parametric knowledge** — what the model internalized during training. This works well for timeless architectural reasoning. It breaks down for:
+
+- **Your codebase**: agents don't know what's in it unless they read it
+- **Recent events**: model cutoffs miss new library releases, regulatory changes, pricing shifts, CVEs
+- **Current benchmarks**: performance comparisons from 18 months ago may be reversed today
+- **Competitor landscape**: what Bloomberg, Palantir, or a new startup shipped last quarter
+
+`--research` adds a **grounding phase before Round 1**. The coordinator scans your codebase and/or searches the web, packages the findings into a Codebase Context Summary and Web Research Summary, and injects this evidence into every agent's prompt. Agents then reason from real, retrieved facts — and are required to cite what they found and flag what was missing.
+
+**This is opt-in only. It is never the default.** Not every question needs research — and research consumes tokens. Use it when parametric knowledge is insufficient.
+
+### Research modes
+
+**Claude Code:**
+```
+/deliberate --research "should we adopt Apache Iceberg for our data lake?"
+/deliberate --research=web "what are the current alternatives to dbt for data transformation?"
+/deliberate --research=code "is our current ingestion pipeline a good candidate for refactoring?"
+/deliberate --triad architecture --research "should we migrate our REST APIs to GraphQL?"
+/deliberate --brainstorm --research "what data quality monitoring approaches should we consider?"
+```
+
+**Windsurf / Cursor:**
+```
+@deliberate with research: should we adopt Apache Iceberg for our data lake?
+@deliberate search the web before answering: what are the current alternatives to dbt for data transformation?
+@deliberate look at the codebase first: is our ingestion pipeline a good candidate for refactoring?
+@deliberate architecture triad with research: should we migrate our REST APIs to GraphQL?
+@deliberate brainstorm do research first: what data quality monitoring approaches should we consider?
+```
+
+### What the grounding phase does
+
+**Codebase scan** (activated by `--research` or `--research=code`):
+1. Reads `AGENTS.md`, project README, top-level structure
+2. Reads relevant entry points, dependency manifests, config files
+3. Follows specific files surfaced by the question domain (auth layers for security questions, hot paths for performance, etc.)
+4. Caps at **10 files maximum** — precision over volume
+5. Produces a **Codebase Context Summary** shared with all agents
+
+**Web search** (activated by `--research` or `--research=web`):
+1. Runs **5 targeted searches maximum** — bad searches waste context
+2. Prioritizes recency (last 12 months) and primary sources (official docs, engineering blogs, CVE databases, academic papers)
+3. Produces a **Web Research Summary** with findings + source URLs + recency note
+4. `assumption-breaker` is explicitly tasked with scrutinizing source quality
+
+### Grounding evidence rules
+
+Agents treat grounding evidence as **facts to reason from, not conclusions to accept**:
+- They must cite specific findings ("the codebase currently uses library X at version Y, which has Z implication")
+- They must flag gaps ("the web research didn't find benchmark data for >10M records/day — my analysis is therefore first-principles")
+- `assumption-breaker` scrutinizes source quality and flags cherry-picked or outdated evidence
+- Agents that over-rely on evidence get flagged in the coordinator's Round 2 dispatch
+
+If the platform has no web search or file access tools, the coordinator announces the limitation and falls back gracefully to parametric knowledge.
 
 ---
 

@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.3] - 2025-04-03
+
+### Added
+- `--research` flag: opt-in grounding phase before Round 1 — scans codebase and/or searches the web before agents analyze
+- `--research=web`: web search only variant
+- `--research=code`: codebase scan only variant
+- `protocols/research-grounding.md`: full grounding protocol (search strategy, codebase scan levels, scope limits, evidence quality rules)
+- Research grounding integrated into SKILL.md coordinator sequence (Step 0), Quick mode, Duo mode
+- Research grounding integrated into BRAINSTORM.md Phase 1
+- Natural language Windsurf triggers: "with research", "search the web", "look at the codebase first", "do research first"
+- README: Research Grounding section with dual-platform examples, grounding phase description, evidence rules
+
 ## [0.2.1] - 2025-04-03
 
 ### Added
