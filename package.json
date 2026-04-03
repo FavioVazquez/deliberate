@@ -1,6 +1,6 @@
 {
   "name": "@faviovazquez/deliberate",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Multi-agent deliberation skill for AI coding assistants. Agreement is a bug.",
   "license": "MIT",
   "author": "Favio Vazquez",
@@ -32,7 +32,9 @@
   "files": [
     "bin/",
     "agents/",
+    "assets/",
     "configs/",
+    "protocols/",
     "scripts/",
     "templates/",
     "SKILL.md",
