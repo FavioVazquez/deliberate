@@ -1,0 +1,88 @@
+# deliberate -- Manual provider/model slot configuration
+#
+# Copy this file to provider-model-slots.yaml to override auto-routing.
+# This lets you assign specific agents to specific providers and models.
+#
+# WARNING: Using high-tier models (e.g., claude-opus-4.6) consumes significantly
+# more tokens and credits. Only enable if you understand the cost implications.
+
+profile: custom
+strategy: manual
+
+# Per-agent overrides
+slots:
+  assumption-breaker:
+    provider: anthropic
+    model: claude-sonnet-4.6
+    # Uncomment the line below to use Opus for deeper analysis:
+    # model: claude-opus-4.6
+
+  first-principles:
+    provider: anthropic
+    model: claude-sonnet-4.6
+
+  classifier:
+    provider: openai
+    model: gpt-5.4-mini
+
+  formal-verifier:
+    provider: openai
+    model: gpt-5.4-mini
+
+  bias-detector:
+    provider: anthropic
+    model: claude-sonnet-4.6
+
+  systems-thinker:
+    provider: google
+    model: gemini-2.5-flash
+
+  resilience-anchor:
+    provider: anthropic
+    model: claude-sonnet-4.6
+
+  adversarial-strategist:
+    provider: google
+    model: gemini-2.5-flash
+
+  emergence-reader:
+    provider: anthropic
+    model: claude-sonnet-4.6
+
+  incentive-mapper:
+    provider: anthropic
+    model: claude-sonnet-4.6
+
+  pragmatic-builder:
+    provider: openai
+    model: gpt-5.4-mini
+
+  reframer:
+    provider: anthropic
+    model: claude-sonnet-4.6
+
+  risk-analyst:
+    provider: anthropic
+    model: claude-sonnet-4.6
+
+  inverter:
+    provider: google
+    model: gemini-2.5-flash
+
+# Specialists (only activated for domain triads)
+  ml-intuition:
+    provider: openai
+    model: gpt-5.4
+
+  safety-frontier:
+    provider: anthropic
+    model: claude-sonnet-4.6
+
+  design-lens:
+    provider: openai
+    model: gpt-5.4-mini
+
+# Fallback for any agent not listed above
+fallback:
+  provider: anthropic
+  model: claude-sonnet-4.6

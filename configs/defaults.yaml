@@ -1,0 +1,54 @@
+# deliberate -- Default model tier mappings
+#
+# Agents specify their preferred tier (high or mid) in their frontmatter.
+# This file maps those tiers to actual models per provider.
+#
+# To override: copy provider-model-slots.example.yaml to
+# provider-model-slots.yaml and customize.
+
+tiers:
+  anthropic:
+    high: claude-sonnet-4.6
+    mid: claude-sonnet-4.6
+    # NOTE: Opus is NOT used by default. To enable:
+    # 1. Copy provider-model-slots.example.yaml
+    # 2. Set high: claude-opus-4.6
+    # 3. Accept that this will consume significantly more tokens/credits
+
+  openai:
+    high: gpt-5.4
+    mid: gpt-5.4-mini
+
+  google:
+    high: gemini-2.5-pro
+    mid: gemini-2.5-flash
+    # NOTE: gemini-3.1-pro and gemini-3-flash are available as previews.
+    # Switch to them once they reach stable status.
+
+  ollama:
+    high: qwen3-coder
+    mid: llama3.3:70b
+
+# Platform defaults
+platforms:
+  claude-code:
+    execution: parallel
+    default_profile: full
+    subagents: true
+
+  windsurf:
+    execution: sequential
+    default_profile: lean
+    subagents: false
+
+  cursor:
+    execution: sequential
+    default_profile: lean
+    subagents: false
+
+# Output configuration
+output:
+  directory: deliberations
+  format: markdown
+  include_raw_rounds: true
+  include_enforcement_notes: true

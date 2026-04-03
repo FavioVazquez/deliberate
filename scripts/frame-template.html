@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>deliberate -- {{FILENAME}}</title>
+<style>
+  :root {
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-tertiary: #21262d;
+    --bg-hover: #30363d;
+    --border: #30363d;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-muted: #484f58;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --success: #3fb950;
+    --warning: #d29922;
+    --danger: #f85149;
+    --info: #58a6ff;
+
+    /* Agent colors */
+    --agent-coral: #ff6b6b;
+    --agent-orange: #ff9f43;
+    --agent-amber: #feca57;
+    --agent-cyan: #48dbfb;
+    --agent-violet: #a55eea;
+    --agent-teal: #0abde3;
+    --agent-silver: #c8d6e5;
+    --agent-red: #ee5a24;
+    --agent-indigo: #686de0;
+    --agent-dark-red: #b33939;
+    --agent-yellow: #f6e58d;
+    --agent-purple: #be2edd;
+    --agent-black: #535c68;
+    --agent-gold: #f9ca24;
+    --agent-green: #6ab04c;
+    --agent-ice-blue: #7ed6df;
+    --agent-white-smoke: #dfe6e9;
+
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+    --font-mono: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .deliberate-header {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .deliberate-header__logo {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+  }
+
+  .deliberate-header__logo span {
+    color: var(--accent);
+  }
+
+  .deliberate-header__status {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  .deliberate-selection-bar {
+    background: var(--accent);
+    color: var(--bg-primary);
+    padding: 8px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 45px;
+    z-index: 99;
+  }
+
+  .deliberate-selection-bar.visible {
+    display: flex;
+  }
+
+  .deliberate-content {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px 24px;
+  }
+
+  /* Typography */
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    margin-top: 20px;
+    line-height: 1.3;
+  }
+
+  h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  p { margin-bottom: 12px; color: var(--text-primary); }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+  }
+
+  .label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .section {
+    margin-bottom: 32px;
+  }
+
+  /* Options (A/B/C choices) */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  }
+
+  .option:hover {
+    border-color: var(--accent);
+    background: var(--bg-tertiary);
+  }
+
+  .option.selected {
+    border-color: var(--accent);
+    background: rgba(88, 166, 255, 0.08);
+  }
+
+  .option:active { transform: scale(0.995); }
+
+  .option .letter {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-tertiary);
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .option.selected .letter {
+    background: var(--accent);
+    color: var(--bg-primary);
+  }
+
+  .option .content h3 { margin-top: 0; margin-bottom: 4px; font-size: 16px; }
+  .option .content p { margin-bottom: 0; font-size: 14px; color: var(--text-secondary); }
+
+  /* Cards (visual designs) */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin: 16px 0;
+  }
+
+  .card {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.1s;
+  }
+
+  .card:hover { border-color: var(--accent); }
+  .card.selected { border-color: var(--accent); background: rgba(88, 166, 255, 0.05); }
+  .card:active { transform: scale(0.98); }
+
+  .card-image {
+    background: var(--bg-tertiary);
+    min-height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  .card-body { padding: 16px; }
+  .card-body h3 { margin-top: 0; font-size: 16px; }
+  .card-body p { font-size: 14px; color: var(--text-secondary); margin-bottom: 0; }
+
+  /* Mockup container */
+  .mockup {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin: 16px 0;
+  }
+
+  .mockup-header {
+    background: var(--bg-tertiary);
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mockup-body { padding: 16px; }
+
+  /* Split view (side-by-side) */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+
+  @media (max-width: 700px) {
+    .split { grid-template-columns: 1fr; }
+  }
+
+  /* Pros/Cons */
+  .pros-cons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+
+  .pros, .cons {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+
+  .pros { border-left: 3px solid var(--success); }
+  .cons { border-left: 3px solid var(--danger); }
+
+  .pros h4 { color: var(--success); }
+  .cons h4 { color: var(--danger); }
+
+  .pros ul, .cons ul { padding-left: 20px; }
+  .pros li, .cons li { font-size: 14px; color: var(--text-secondary); margin-bottom: 4px; }
+
+  @media (max-width: 700px) {
+    .pros-cons { grid-template-columns: 1fr; }
+  }
+
+  /* Mock elements (wireframe building blocks) */
+  .mock-nav {
+    background: var(--bg-tertiary);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .mock-sidebar {
+    background: var(--bg-secondary);
+    padding: 16px;
+    min-width: 180px;
+    border-right: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .mock-content {
+    background: var(--bg-primary);
+    padding: 16px;
+    flex: 1;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .mock-button {
+    background: var(--accent);
+    color: var(--bg-primary);
+    border: none;
+    padding: 8px 20px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .mock-button:hover { background: var(--accent-hover); }
+
+  .mock-input {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .mock-input::placeholder { color: var(--text-muted); }
+
+  .placeholder {
+    background: var(--bg-tertiary);
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  /* Agent badge */
+  .agent-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+  }
+
+  .agent-badge .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  /* Agent position indicators */
+  .agent-position {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    border-left: 3px solid var(--border);
+  }
+
+  .agent-position.agree { border-left-color: var(--success); }
+  .agent-position.disagree { border-left-color: var(--danger); }
+  .agent-position.partial { border-left-color: var(--warning); }
+
+  /* Verdict styles */
+  .verdict {
+    background: var(--bg-secondary);
+    border: 2px solid var(--accent);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin: 24px 0;
+  }
+
+  .verdict h3 {
+    color: var(--accent);
+    margin-top: 0;
+  }
+
+  .minority-report {
+    background: rgba(248, 81, 73, 0.08);
+    border: 1px solid var(--danger);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin: 16px 0;
+  }
+
+  .minority-report h4 { color: var(--danger); }
+
+  /* Canvas container for visualizations */
+  .canvas-container {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    margin: 16px 0;
+    position: relative;
+  }
+
+  .canvas-container canvas {
+    width: 100%;
+    display: block;
+    border-radius: var(--radius);
+  }
+
+  /* Tooltip */
+  .tooltip {
+    position: absolute;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--text-primary);
+    pointer-events: none;
+    z-index: 200;
+    max-width: 300px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    display: none;
+  }
+
+  .tooltip.visible { display: block; }
+
+  /* Agreement matrix */
+  .agreement-matrix {
+    display: grid;
+    gap: 2px;
+    margin: 16px 0;
+  }
+
+  .agreement-cell {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+
+  .agreement-cell:hover { transform: scale(1.1); }
+  .agreement-cell.agree { background: var(--success); opacity: 0.7; }
+  .agreement-cell.disagree { background: var(--danger); opacity: 0.7; }
+  .agreement-cell.partial { background: var(--warning); opacity: 0.7; }
+  .agreement-cell.empty { background: var(--bg-tertiary); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-primary); }
+  ::-webkit-scrollbar-thumb { background: var(--bg-tertiary); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border); }
+</style>
+</head>
+<body>
+  <header class="deliberate-header">
+    <div class="deliberate-header__logo"><span>deliberate</span> visual companion</div>
+    <div class="deliberate-header__status" id="status-text">connected</div>
+  </header>
+
+  <div class="deliberate-selection-bar" id="selection-bar">
+    <span id="selection-text">1 selected</span>
+    <span style="font-size:11px;opacity:0.7">Respond in your terminal to continue</span>
+  </div>
+
+  <main class="deliberate-content">
+    {{CONTENT}}
+  </main>
+
+  <div class="tooltip" id="tooltip"></div>
+
+  <script>
+    {{HELPER_JS}}
+  </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{
+  "name": "deliberate",
+  "version": "0.1.0",
+  "description": "Multi-agent deliberation skill for AI coding assistants. Agreement is a bug.",
+  "license": "MIT",
+  "author": "Favio Vazquez",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FavioVazquez/deliberate.git"
+  },
+  "homepage": "https://github.com/FavioVazquez/deliberate#readme",
+  "bugs": {
+    "url": "https://github.com/FavioVazquez/deliberate/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "deliberation",
+    "anti-sycophancy",
+    "multi-agent",
+    "claude-code",
+    "windsurf",
+    "structured-disagreement",
+    "brainstorming"
+  ],
+  "bin": {
+    "deliberate": "./bin/cli.js"
+  },
+  "files": [
+    "bin/",
+    "agents/",
+    "configs/",
+    "scripts/",
+    "templates/",
+    "SKILL.md",
+    "BRAINSTORM.md",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "install.sh"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "release:patch": "npm version patch && git push && git push --tags",
+    "release:minor": "npm version minor && git push && git push --tags",
+    "release:major": "npm version major && git push && git push --tags",
+    "prepublishOnly": "echo 'Publishing deliberate to npm...'"
+  }
+}
