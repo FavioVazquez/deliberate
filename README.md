@@ -1,20 +1,44 @@
+<p align="center">
+  <img src="assets/banner.png" alt="deliberate — Agreement is a bug" width="100%" />
+</p>
+
 # deliberate
 
 **Agreement is a bug.**
 
 A multi-agent deliberation and brainstorming skill for AI coding assistants. Forces multiple agents to disagree before they agree, surfacing blind spots that single-perspective answers hide.
 
-## The Problem
+## The Problem: AI Sycophancy
 
-AI chatbots are sycophantic. They validate your claims, confirm your hypotheses, and produce polished answers that sound balanced but come from a single reasoning tradition. Research shows this leads to "delusional spiraling" where even rational users develop dangerously confident beliefs after prolonged conversations ([Chandra et al., 2025](https://arxiv.org/abs/2602.19141)).
+AI chatbots are sycophantic. They validate your claims, confirm your hypotheses, and produce polished answers that sound balanced but come from a single reasoning tradition.
 
-A single LLM produces one coherent viewpoint per generation. It simulates balance. It does not achieve genuine adversarial deliberation.
+This is not a minor UX inconvenience. It is a structural failure mode:
+
+- **Confirmation bias amplification**: LLMs agree with the user's framing by default. If you ask "should we use microservices?", the model builds a case for microservices. If you ask "should we stay monolithic?", the same model builds an equally confident case for monoliths. The answer follows the framing, not the evidence.
+- **Delusional spiraling**: [Chandra et al. (2025)](https://arxiv.org/abs/2602.19141) formalized how prolonged conversations with agreeable AI lead to "sycophancy-induced delusional spiraling" — users develop dangerously confident beliefs because the AI never pushes back. Their model shows that even initially rational users converge toward overconfidence when the AI consistently validates.
+- **Simulated balance**: A single LLM generates one coherent viewpoint per response. When asked for "both sides," it produces a paragraph for each — but both paragraphs come from the same reasoning tradition, the same training distribution, the same latent biases. It simulates balance without achieving genuine adversarial analysis.
+- **Hidden trade-offs**: Complex decisions involve real trade-offs where the correct answer depends on which values you weight. A single model flattens these into one recommendation, hiding the tensions that should be visible to the decision-maker.
+- **Context collapse**: In long conversations, the AI anchors on earlier positions. By session 5, you're in an echo chamber of your own assumptions, reinforced by an eager assistant.
+
+The research is clear: a single AI perspective is structurally insufficient for complex decisions.
+
+<p align="center">
+  <img src="assets/sycophancy.png" alt="The Sycophancy Problem — Single AI vs Multi-Agent Deliberation" width="100%" />
+</p>
 
 ## The Solution
 
-`deliberate` externalizes the disagreement layer. Instead of asking one agent for a balanced answer, it spawns multiple agents with distinct analytical methods, explicit blind spots, and structural counterweights. They analyze independently, cross-examine each other, and produce a verdict that shows you where they agree, where they disagree, and why.
+`deliberate` externalizes the disagreement layer. Instead of asking one agent for a balanced answer, it spawns multiple agents with **distinct analytical methods**, **explicit blind spots**, and **structural counterweights**. They analyze independently, cross-examine each other, and produce a verdict that shows you where they agree, where they disagree, and why.
 
 The disagreements are the point. A single model averages opposing views into one confident recommendation. `deliberate` keeps them separate so you can decide.
+
+**What deliberate brings to the table:**
+
+- **Structural disagreement, not simulated balance**: Each agent has a declared analytical method and declared blind spots. The polarity pairs (e.g., `pragmatic-builder` vs `reframer`: "ship it" vs "does it even need to exist?") guarantee genuine tension.
+- **Forced dissent**: The protocol requires at least 30% of agents to disagree in Round 2. Unanimous agreement triggers an explicit groupthink warning. The system is designed to make agreement hard.
+- **Minority report**: Dissenting positions are preserved in full, not averaged away. Sometimes the minority is right — you should see their reasoning.
+- **Multi-round cross-examination**: Agents don't just state opinions in parallel. In Round 2, each agent must name which other agent they most disagree with, and why. This forces genuine engagement with opposing views.
+- **Transparent verdict**: The output shows you agreement, disagreement, the specific tensions, and unresolved questions. No confident recommendation hiding real trade-offs.
 
 ---
 
@@ -88,6 +112,10 @@ cd deliberate
 ## Modes
 
 `deliberate` has 6 modes. Each mode works on every platform — only the invocation syntax differs.
+
+<p align="center">
+  <img src="assets/modes_overview.png" alt="Six Deliberation Modes" width="100%" />
+</p>
 
 ### Full Deliberation (3 rounds)
 
@@ -263,6 +291,10 @@ Pre-defined agent groups for common scenarios. Use when you don't want to pick i
 
 Each agent is named by its analytical function — not by historical figures. Every agent declares its method, what it sees that others miss, and what it tends to miss. These declared blind spots are why the polarity pairs matter.
 
+<p align="center">
+  <img src="assets/agents_wheel.png" alt="The 14 Core Agents" width="100%" />
+</p>
+
 | # | Agent | Function | Tier |
 |---|-------|----------|------|
 | 1 | `assumption-breaker` | Destroys hidden premises, tests by contradiction, dialectical questioning | high |
@@ -309,6 +341,10 @@ These agents are structural counterweights. When both are present, genuine disag
 ## 18 Pre-defined Triads
 
 Each triad is a team of 3 agents optimized for a domain. The reasoning chain shows the deliberation flow.
+
+<p align="center">
+  <img src="assets/triad_map.png" alt="18 Pre-defined Triads" width="100%" />
+</p>
 
 | Domain | Agents | Reasoning Chain |
 |--------|--------|-----------------|
@@ -486,6 +522,10 @@ You can override the default profile per invocation with `--profile`.
 
 The protocol includes safeguards against common failure modes:
 
+<p align="center">
+  <img src="assets/enforcement.png" alt="Protocol Enforcement" width="100%" />
+</p>
+
 | Rule | What it prevents |
 |------|-----------------|
 | **Hemlock rule** | Infinite questioning spirals — forces 50-word position statement |
@@ -500,6 +540,10 @@ The protocol includes safeguards against common failure modes:
 ## Verdict Output
 
 Every deliberation produces a structured verdict saved to `deliberations/`:
+
+<p align="center">
+  <img src="assets/verdict.png" alt="Structured Verdict Output" width="100%" />
+</p>
 
 ```markdown
 ## Deliberation Verdict
