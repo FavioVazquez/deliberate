@@ -58,10 +58,12 @@ Which would you prefer? (A/B, or press Enter for default A)
 
 **Wait for the user's response before proceeding.**
 
-- If the user selects **A** or presses Enter: `high → claude-opus-4-5`, `mid → claude-sonnet-4-5`
-- If the user selects **B**: both `high` and `mid` → `claude-sonnet-4-5`
+- If the user selects **A** or presses Enter: `high → opus`, `mid → sonnet`
+- If the user selects **B**: both `high` and `mid` → `sonnet`
 
-Store the resolved model map and use it when dispatching agents in Phase 5 (Divergent Phase). Pass the resolved model name as the `model` parameter for each agent subagent call.
+`opus` and `sonnet` are Claude Code's accepted shorthands for claude-opus-4-6 and claude-sonnet-4-6.
+
+Store the resolved model map and use it when dispatching agents in Phase 5 (Divergent Phase). Pass the resolved shorthand as the `model` parameter for each agent subagent call.
 
 If `configs/provider-model-slots.yaml` exists in the project root, skip this prompt and use manual overrides from that file.
 

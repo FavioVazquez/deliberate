@@ -155,8 +155,8 @@ Which would you prefer? (A/B, or press Enter for default A)
 
 **Wait for the user's response before proceeding.**
 
-- If the user selects **A** or presses Enter: resolve `high → claude-opus-4-5`, `mid → claude-sonnet-4-5` from `configs/defaults.yaml`
-- If the user selects **B**: resolve both `high` and `mid` → `claude-sonnet-4-5`
+- If the user selects **A** or presses Enter: resolve `high → opus`, `mid → sonnet` from `configs/defaults.yaml`
+- If the user selects **B**: resolve both `high` and `mid` → `sonnet`
 
 Store the resolved model map for use in Step 4. This selection applies for the entire session.
 
@@ -197,9 +197,9 @@ If auto-detection is ambiguous, present the top 2-3 triad matches and let the us
 Use the resolved model map from Step 0.5 (Claude Code) or the active context model (Windsurf/Cursor):
 
 **Claude Code:**
-- Agents with `model_tier: high` in their frontmatter → use the `high` model resolved in Step 0.5
-- Agents with `model_tier: mid` in their frontmatter → use the `mid` model resolved in Step 0.5
-- Pass the resolved model name as the `model` parameter when dispatching each subagent via the Agent tool
+- Agents with `model_tier: high` → pass `model: opus` (or `model: sonnet` if user chose B) to the Agent tool
+- Agents with `model_tier: mid` → pass `model: sonnet` to the Agent tool
+- `opus` and `sonnet` are Claude Code's accepted shorthands for the current claude-opus-4-6 and claude-sonnet-4-6
 - If `configs/provider-model-slots.yaml` exists, use manual overrides instead
 
 **Windsurf / Cursor:**
