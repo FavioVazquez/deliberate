@@ -302,7 +302,7 @@ The visual companion server is still running at http://localhost:{port}.
 Stop it now? (Y/n)
 ```
 
-- If **Y** or Enter: run `scripts/stop-server.sh` to shut it down cleanly.
+- If **Y** or Enter: run `scripts/stop-server.sh {session_dir}` where `{session_dir}` is the `session_dir` value returned by `start-server.sh` in Phase 2. This stops the exact session that was started.
 - If **N**: leave it running. Remind the user it will auto-shutdown after 30 minutes of inactivity.
 
 If the visual companion was NOT active during this session, skip this phase.

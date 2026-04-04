@@ -490,7 +490,7 @@ Stop it now? (Y/n)
 
 If you say yes (or press Enter), it runs `scripts/stop-server.sh` to shut it down cleanly. If you say no, the server keeps running — useful if you want to review the session in the browser after the deliberation ends. **It will auto-shutdown after 30 minutes of inactivity regardless.**
 
-If you ever need to manage the server manually:
+If you ever need to manage the server manually, run these commands **from your project root**. The stop script requires no arguments — it auto-discovers and kills any running deliberate server.
 
 **Claude Code — global install:**
 ```bash
