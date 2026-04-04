@@ -293,6 +293,20 @@ If you want changes, tell me what to adjust.
 
 **Only proceed to implementation after explicit user approval.**
 
+### Phase 12: Visual Companion Shutdown (if active)
+
+If the visual companion server was started during this session, ask the user after they approve or conclude the brainstorm:
+
+```
+The visual companion server is still running at http://localhost:{port}.
+Stop it now? (Y/n)
+```
+
+- If **Y** or Enter: run `scripts/stop-server.sh` to shut it down cleanly.
+- If **N**: leave it running. Remind the user it will auto-shutdown after 30 minutes of inactivity.
+
+If the visual companion was NOT active during this session, skip this phase.
+
 ---
 
 ## Visual Companion in Brainstorm Mode

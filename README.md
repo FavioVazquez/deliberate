@@ -479,6 +479,33 @@ It provides:
 
 Built with plain HTML + JS + Canvas 2D. No framework, no build step. Served locally via a lightweight Node.js file-watcher server.
 
+### Starting and stopping the server
+
+The coordinator starts the server automatically when `--visual` is active. You do not need to start it manually. When your deliberation or brainstorm ends, the coordinator will ask you:
+
+```
+The visual companion server is still running at http://localhost:{port}.
+Stop it now? (Y/n)
+```
+
+If you say yes (or press Enter), it runs `scripts/stop-server.sh` to shut it down cleanly. If you say no, the server keeps running — useful if you want to review the session in the browser after the deliberation ends. **It will auto-shutdown after 30 minutes of inactivity regardless.**
+
+If you ever need to manage the server manually:
+
+```bash
+# Start the server (from your project root)
+bash ~/.claude/skills/deliberate/scripts/start-server.sh --project-dir .
+
+# Stop the server
+bash ~/.claude/skills/deliberate/scripts/stop-server.sh
+```
+
+For Windsurf:
+```bash
+bash ~/.codeium/windsurf/skills/deliberate/scripts/start-server.sh --project-dir .
+bash ~/.codeium/windsurf/skills/deliberate/scripts/stop-server.sh
+```
+
 ---
 
 ## Platforms

@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.8] - 2026-04-04
+
+### Added
+- `README.md`: Expanded Visual Companion section with a dedicated "Starting and stopping the server" subsection — explains that the coordinator starts the server automatically, documents the shutdown prompt shown at the end of each session, the 30-minute auto-shutdown, and manual `start-server.sh` / `stop-server.sh` commands for both Claude Code and Windsurf install paths.
+- `SKILL.md`: Added **Step 12 — Visual Companion Shutdown**. After saving output, the coordinator asks the user whether to stop the server (`Y/n`). If yes, runs `scripts/stop-server.sh`. If no, reminds user of the 30-minute auto-shutdown. Skipped if visual companion was not active.
+- `BRAINSTORM.md`: Added **Phase 12 — Visual Companion Shutdown**, identical logic to SKILL.md Step 12, triggered after Phase 11 user approval.
+
 ## [0.2.7] - 2026-04-04
 
 ### Fixed
