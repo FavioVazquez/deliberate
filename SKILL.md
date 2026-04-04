@@ -207,12 +207,29 @@ Use the resolved model map from Step 0.5 (Claude Code) or the active context mod
 - `model_tier` in agent frontmatter is treated as metadata only — no model switching occurs
 - No model selection prompt is shown
 
-### Step 5: Visual Companion (optional)
+### Step 5: Visual Companion Offer
 
-If `--visual` flag is set, or if the user has previously accepted the visual companion in this session:
-1. Launch `scripts/start-server.sh --project-dir {project_root}`
+If `--visual` flag is set, skip directly to launching the server (step 5c below).
+
+Otherwise, **always offer the visual companion** before starting the deliberation:
+
+```
+Would you like to follow the deliberation in real time in your browser?
+The visual companion shows agent positions, agreement/disagreement maps,
+and verdict formation as it happens. (Requires opening a local URL)
+
+Open visual companion? (y/N)
+```
+
+**This offer MUST be its own message.** Wait for the user's response before continuing.
+
+- If **yes**: proceed to launch (5c)
+- If **no** or Enter: proceed without visual companion
+
+**5c — Launch:**
+1. Run `scripts/start-server.sh --project-dir {project_root}`
 2. Save `screen_dir` and `state_dir` from the response
-3. Tell user to open the URL
+3. Tell the user to open the URL
 4. Visual companion will be updated after each round
 
 ### Step 6: Round 1 -- Independent Analysis

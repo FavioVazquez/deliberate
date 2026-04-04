@@ -492,18 +492,34 @@ If you say yes (or press Enter), it runs `scripts/stop-server.sh` to shut it dow
 
 If you ever need to manage the server manually:
 
+**Claude Code — global install:**
 ```bash
-# Start the server (from your project root)
 bash ~/.claude/skills/deliberate/scripts/start-server.sh --project-dir .
-
-# Stop the server
 bash ~/.claude/skills/deliberate/scripts/stop-server.sh
 ```
 
-For Windsurf:
+**Claude Code — local install:**
+```bash
+bash .claude/skills/deliberate/scripts/start-server.sh --project-dir .
+bash .claude/skills/deliberate/scripts/stop-server.sh
+```
+
+**Windsurf — global install:**
 ```bash
 bash ~/.codeium/windsurf/skills/deliberate/scripts/start-server.sh --project-dir .
 bash ~/.codeium/windsurf/skills/deliberate/scripts/stop-server.sh
+```
+
+**Windsurf — local install:**
+```bash
+bash .windsurf/skills/deliberate/scripts/start-server.sh --project-dir .
+bash .windsurf/skills/deliberate/scripts/stop-server.sh
+```
+
+**Cursor — local install:**
+```bash
+bash .cursor/skills/deliberate/scripts/start-server.sh --project-dir .
+bash .cursor/skills/deliberate/scripts/stop-server.sh
 ```
 
 ---

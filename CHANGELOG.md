@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.9] - 2026-04-04
+
+### Added
+- `README.md`: Added local install path examples for `start-server.sh` / `stop-server.sh` under "Starting and stopping the server" — covers Claude Code global/local, Windsurf global/local, and Cursor local install paths.
+- `SKILL.md`: Step 5 now always offers the visual companion before starting the deliberation, even when `--visual` was not passed. Mirrors the behavior already present in BRAINSTORM.md Phase 2. The offer is a standalone message; the user can accept (y) or decline (N/Enter).
+
 ## [0.2.8] - 2026-04-04
 
 ### Added
