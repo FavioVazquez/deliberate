@@ -1,7 +1,7 @@
 ---
 name: deliberate-resilience-anchor
 description: "Deliberate agent. Use standalone for resilience & moral clarity analysis, or via /deliberate for multi-perspective deliberation."
-model: mid
+model_tier: mid
 color: silver
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:

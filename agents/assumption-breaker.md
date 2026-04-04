@@ -1,7 +1,7 @@
 ---
 name: deliberate-assumption-breaker
 description: "Deliberate agent. Use standalone for assumption destruction & dialectical analysis, or via /deliberate for multi-perspective deliberation."
-model: high
+model_tier: high
 color: coral
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:

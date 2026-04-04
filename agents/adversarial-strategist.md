@@ -1,7 +1,7 @@
 ---
 name: deliberate-adversarial-strategist
 description: "Deliberate agent. Use standalone for adversarial strategy, competitive analysis & strategic timing, or via /deliberate for multi-perspective deliberation."
-model: mid
+model_tier: mid
 color: red
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:

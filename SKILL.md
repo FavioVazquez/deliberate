@@ -133,6 +133,37 @@ If `--research` is NOT set, skip this step entirely. Do not spontaneously resear
 
 ---
 
+### Step 0.5: Model Selection (Claude Code only)
+
+**This step runs only on Claude Code.** On Windsurf and Cursor, agents use the active model in the current context — no selection needed.
+
+Before doing anything else, ask the user:
+
+```
+⚙️ Model configuration for this deliberation:
+
+High-tier agents (assumption-breaker, bias-detector, emergence-reader,
+reframer, risk-analyst, safety-frontier) will use:
+
+  A) Opus + Sonnet  — opus for high-tier, sonnet for mid-tier [DEFAULT]
+                      Best quality. Higher token cost.
+  B) Sonnet only    — sonnet for all agents
+                      Faster. Lower cost. Still strong.
+
+Which would you prefer? (A/B, or press Enter for default A)
+```
+
+**Wait for the user's response before proceeding.**
+
+- If the user selects **A** or presses Enter: resolve `high → claude-opus-4-5`, `mid → claude-sonnet-4-5` from `configs/defaults.yaml`
+- If the user selects **B**: resolve both `high` and `mid` → `claude-sonnet-4-5`
+
+Store the resolved model map for use in Step 4. This selection applies for the entire session.
+
+If `configs/provider-model-slots.yaml` exists in the project root, skip this prompt entirely and use manual overrides from that file.
+
+---
+
 ### Step 1: Platform Detection
 
 Read `configs/defaults.yaml` to determine:
@@ -163,12 +194,18 @@ If auto-detection is ambiguous, present the top 2-3 triad matches and let the us
 
 ### Step 4: Model Routing
 
-Read `configs/defaults.yaml` for tier mapping:
-- Agents marked `model: high` get the high-tier model
-- Agents marked `model: mid` get the mid-tier model
-- If `config.yaml` in project root sets `model_tier: mid`, ALL agents use mid tier regardless of their default
+Use the resolved model map from Step 0.5 (Claude Code) or the active context model (Windsurf/Cursor):
 
-If `configs/provider-model-slots.yaml` exists, use manual overrides instead of auto-routing.
+**Claude Code:**
+- Agents with `model_tier: high` in their frontmatter → use the `high` model resolved in Step 0.5
+- Agents with `model_tier: mid` in their frontmatter → use the `mid` model resolved in Step 0.5
+- Pass the resolved model name as the `model` parameter when dispatching each subagent via the Agent tool
+- If `configs/provider-model-slots.yaml` exists, use manual overrides instead
+
+**Windsurf / Cursor:**
+- All agents run sequentially within the current context window using the model already active in the session
+- `model_tier` in agent frontmatter is treated as metadata only — no model switching occurs
+- No model selection prompt is shown
 
 ### Step 5: Visual Companion (optional)
 

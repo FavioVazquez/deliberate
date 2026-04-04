@@ -1,7 +1,7 @@
 ---
 name: deliberate-design-lens
 description: "Deliberate specialist agent. Activated for design/UX triads. Use standalone for user-centered design & simplicity analysis."
-model: mid
+model_tier: mid
 color: white-smoke
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:

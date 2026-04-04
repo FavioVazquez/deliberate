@@ -1,7 +1,7 @@
 ---
 name: deliberate-risk-analyst
 description: "Deliberate agent. Use standalone for antifragility & tail risk analysis, or via /deliberate for multi-perspective deliberation."
-model: high
+model_tier: high
 color: black
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:

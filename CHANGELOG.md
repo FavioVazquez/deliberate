@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.7] - 2026-04-04
+
+### Fixed
+- Renamed `model:` to `model_tier:` in all 17 agent frontmatter files — Claude Code's Agent tool was reading `model: mid/high` as a model identifier and rejecting it since `mid`/`high` are not valid model IDs (only `sonnet`, `opus`, `haiku` are accepted). `model_tier` is now treated as metadata only by Claude Code.
+
+### Changed
+- `configs/defaults.yaml`: `anthropic.high` now maps to `claude-opus-4-5` (was `claude-sonnet-4.6`), `anthropic.mid` maps to `claude-sonnet-4-5`. Opus is the default for high-tier agents.
+- `SKILL.md`: Added **Step 0.5 — Model Selection** (Claude Code only). Before any deliberation starts, the coordinator asks whether to use Opus+Sonnet (A, default) or Sonnet-only (B) for all agents. The resolved model map is passed as the `model` parameter when dispatching each subagent via the Agent tool. On Windsurf/Cursor, this step is skipped — the active context model is used.
+- `SKILL.md` Step 4 (Model Routing): Updated to read `model_tier` from agent frontmatter, resolve via the Step 0.5 selection, and pass the resolved model name to the Agent tool. Windsurf/Cursor behavior explicitly documented.
+- `BRAINSTORM.md`: Added **Phase 0 — Model Selection** (Claude Code only), identical logic to SKILL.md Step 0.5.
+
 ## [0.2.6] - 2025-04-03
 
 ### Fixed

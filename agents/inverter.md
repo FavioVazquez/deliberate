@@ -1,7 +1,7 @@
 ---
 name: deliberate-inverter
 description: "Deliberate agent. Use standalone for multi-model reasoning & inversion analysis, or via /deliberate for multi-perspective deliberation."
-model: mid
+model_tier: mid
 color: gold
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:

@@ -1,7 +1,7 @@
 ---
 name: deliberate-systems-thinker
 description: "Deliberate agent. Use standalone for systems thinking & feedback loop analysis, or via /deliberate for multi-perspective deliberation."
-model: mid
+model_tier: mid
 color: teal
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:

@@ -8,12 +8,12 @@
 
 tiers:
   anthropic:
-    high: claude-sonnet-4.6
-    mid: claude-sonnet-4.6
-    # NOTE: Opus is NOT used by default. To enable:
-    # 1. Copy provider-model-slots.example.yaml
-    # 2. Set high: claude-opus-4.6
-    # 3. Accept that this will consume significantly more tokens/credits
+    high: claude-opus-4-5
+    mid: claude-sonnet-4-5
+    # Opus is used for high-tier agents by default.
+    # At startup, the coordinator asks the user whether to keep opus (high)
+    # or switch all agents to sonnet. The user's choice overrides this mapping
+    # for the session. See SKILL.md Step 0.5 for the selection prompt.
 
   openai:
     high: gpt-5.4

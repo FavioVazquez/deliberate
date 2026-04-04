@@ -1,7 +1,7 @@
 ---
 name: deliberate-safety-frontier
 description: "Deliberate specialist agent. Activated for AI safety triads. Use standalone for scaling frontier & AI safety analysis."
-model: high
+model_tier: high
 color: ice-blue
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:

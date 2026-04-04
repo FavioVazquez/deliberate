@@ -1,7 +1,7 @@
 ---
 name: deliberate-classifier
 description: "Deliberate agent. Use standalone for categorization & structural analysis, or via /deliberate for multi-perspective deliberation."
-model: mid
+model_tier: mid
 color: amber
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:

@@ -1,7 +1,7 @@
 ---
 name: deliberate-pragmatic-builder
 description: "Deliberate agent. Use standalone for pragmatic engineering & shipping analysis, or via /deliberate for multi-perspective deliberation."
-model: mid
+model_tier: mid
 color: yellow
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:

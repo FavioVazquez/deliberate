@@ -1,7 +1,7 @@
 ---
 name: deliberate-incentive-mapper
 description: "Deliberate agent. Use standalone for power dynamics & incentive analysis, or via /deliberate for multi-perspective deliberation."
-model: mid
+model_tier: mid
 color: dark-red
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:

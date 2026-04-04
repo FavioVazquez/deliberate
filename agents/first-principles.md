@@ -1,7 +1,7 @@
 ---
 name: deliberate-first-principles
 description: "Deliberate agent. Use standalone for first-principles debugging & bottom-up derivation, or via /deliberate for multi-perspective deliberation."
-model: mid
+model_tier: mid
 color: orange
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:

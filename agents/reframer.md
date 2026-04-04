@@ -1,7 +1,7 @@
 ---
 name: deliberate-reframer
 description: "Deliberate agent. Use standalone for perspective dissolution & reframing, or via /deliberate for multi-perspective deliberation."
-model: high
+model_tier: high
 color: purple
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:

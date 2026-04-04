@@ -36,6 +36,37 @@ Do NOT invoke any implementation skill, write any code, scaffold any project, or
 
 ## Process Flow
 
+### Phase 0: Model Selection (Claude Code only)
+
+**This step runs only on Claude Code.** On Windsurf and Cursor, agents use the active model in the current context — skip this phase entirely.
+
+Before doing anything else, ask the user:
+
+```
+⚙️ Model configuration for this brainstorm:
+
+High-tier agents (assumption-breaker, bias-detector, emergence-reader,
+reframer, risk-analyst, safety-frontier) will use:
+
+  A) Opus + Sonnet  — opus for high-tier, sonnet for mid-tier [DEFAULT]
+                      Best quality. Higher token cost.
+  B) Sonnet only    — sonnet for all agents
+                      Faster. Lower cost. Still strong.
+
+Which would you prefer? (A/B, or press Enter for default A)
+```
+
+**Wait for the user's response before proceeding.**
+
+- If the user selects **A** or presses Enter: `high → claude-opus-4-5`, `mid → claude-sonnet-4-5`
+- If the user selects **B**: both `high` and `mid` → `claude-sonnet-4-5`
+
+Store the resolved model map and use it when dispatching agents in Phase 5 (Divergent Phase). Pass the resolved model name as the `model` parameter for each agent subagent call.
+
+If `configs/provider-model-slots.yaml` exists in the project root, skip this prompt and use manual overrides from that file.
+
+---
+
 ### Phase 1: Context Exploration
 
 Read the relevant context before asking any questions:

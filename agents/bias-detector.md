@@ -1,7 +1,7 @@
 ---
 name: deliberate-bias-detector
 description: "Deliberate agent. Use standalone for cognitive bias detection & de-biasing, or via /deliberate for multi-perspective deliberation."
-model: high
+model_tier: high
 color: violet
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:

@@ -1,7 +1,7 @@
 ---
 name: deliberate-emergence-reader
 description: "Deliberate agent. Use standalone for emergence & non-intervention analysis, or via /deliberate for multi-perspective deliberation."
-model: high
+model_tier: high
 color: indigo
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:

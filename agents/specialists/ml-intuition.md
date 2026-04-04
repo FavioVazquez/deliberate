@@ -1,7 +1,7 @@
 ---
 name: deliberate-ml-intuition
 description: "Deliberate specialist agent. Activated for AI/ML triads. Use standalone for neural network intuition & empirical ML analysis."
-model: mid
+model_tier: mid
 color: green
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 deliberate:
